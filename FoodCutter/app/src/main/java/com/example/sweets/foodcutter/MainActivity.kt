@@ -1,30 +1,28 @@
 package com.example.sweets.foodcutter
 
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.ImageFormat
 import android.graphics.SurfaceTexture
 import android.hardware.camera2.*
+import android.Manifest
 import android.media.ImageReader
 import android.os.Build
+import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
 import android.support.annotation.RequiresApi
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.util.Size
 import android.view.Surface
 import android.view.TextureView
-import java.util.*
-import android.R.attr.button
-import android.widget.Button
 import android.view.View;
-import kotlinx.android.synthetic.main.activity_main.view.*
+import android.widget.Button
+import java.util.*
 
 class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -37,7 +35,7 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
     private lateinit var previewRequest: CaptureRequest
     private var backgroundThread: HandlerThread? = null
     private var backgroundHandler: Handler? = null
-    private lateinit var myView : View
+    private lateinit var myView : com.example.sweets.foodcutter.MyView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,10 +45,11 @@ class MainActivity : AppCompatActivity(), ActivityCompat.OnRequestPermissionsRes
         startBackgroundThread()
         myView = findViewById(R.id.myView)
         val incBtn : Button = findViewById(R.id.incrementBtn)
-//        incBtn.setOnClickListener{
-//            Log.v("tag", "click!")
-//            //myView.incrementParts()
-//        }
+        val decBtn : Button = findViewById(R.id.decrementBtn)
+        val modeBtn : Button = findViewById(R.id.changeMode)
+        incBtn.setOnClickListener{ myView.incrementParts() }
+        decBtn.setOnClickListener{ myView.decrementParts() }
+        modeBtn.setOnClickListener{ myView.changeMode() }
     }
 
     private fun openCamera() {
