@@ -34,12 +34,13 @@ class MyView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
         when (cutMode) {
             0 -> {
+                var radius : Float = (layoutWidth * 0.9 / 2).toFloat()
                 // 円
                 paint.color = Color.argb(255, 68, 255, 255)
                 paint.strokeWidth = 10f
                 paint.isAntiAlias = true
                 paint.style = Paint.Style.STROKE
-                canvas.drawCircle(layoutWidth.toFloat() / 2, layoutHeight.toFloat() / 2, 500f, paint)
+                canvas.drawCircle(layoutWidth.toFloat() / 2, layoutHeight.toFloat() / 2, radius, paint)
 
                 // 線
                 paint.strokeWidth = 10f
@@ -47,10 +48,8 @@ class MyView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 var count: Int = 0
                 while (++count <= partCount) {
                     canvas.drawLine(layoutWidth.toFloat() / 2, layoutHeight.toFloat() / 2,
-                            layoutWidth.toFloat() / 2 + 500f * sin(PI * 2 * count / partCount).toFloat(),
-                            layoutHeight.toFloat() / 2 - 500f * cos(PI * 2 * count / partCount).toFloat(), paint)
-                    Log.v("width", (500f * sin(PI * 2 * count / partCount)).toString())
-                    Log.v("Height", (500f * cos(PI * 2 * count / partCount)).toString())
+                            layoutWidth.toFloat() / 2 + radius * sin(PI * 2 * count / partCount).toFloat(),
+                            layoutHeight.toFloat() / 2 - radius * cos(PI * 2 * count / partCount).toFloat(), paint)
                 }
             }
             1 -> {
@@ -66,7 +65,6 @@ class MyView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 paint.color = Color.argb(255, 0, 255, 120)
                 // (x1,y1,x2,y2,paint) 始点の座標(x1,y1), 終点の座標(x2,y2)
                 canvas.drawLine(350f, 850f, 750f, 630f, paint)
-
 
                 var count: Int = 0
                 do {
@@ -84,7 +82,7 @@ class MyView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     }
 
     fun incrementParts() {
-         if(partCount < 10)partCount += 1
+         if(partCount < 100)partCount += 1
          showCanvas(true)
     }
 
