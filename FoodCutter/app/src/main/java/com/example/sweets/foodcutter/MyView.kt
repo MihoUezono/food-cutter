@@ -43,7 +43,6 @@ class MyView(context: Context, attrs: AttributeSet) : View(context, attrs), View
 
         when (cutMode) {
             0 -> {
-                Log.v("beforeDraw", "$currentWidth, $currentHeight")
                 var radius : Float = (sqrt(currentWidth * currentWidth + currentHeight * currentHeight) * 0.9 / 2).toFloat()
                 // 円
                 paint.color = Color.argb(255, 68, 255, 255)
@@ -68,19 +67,16 @@ class MyView(context: Context, attrs: AttributeSet) : View(context, attrs), View
                 paint.strokeWidth = 10f
                 paint.style = Paint.Style.STROKE
                 // (x1,y1,x2,y2,paint) 左上の座標(x1,y1), 右下の座標(x2,y2)
-                canvas.drawRect(240f, 240f, 1000f, 880f, paint)
+                canvas.drawRect(cX - currentWidth/2, cY - currentHeight/2, cX + currentWidth/2, cY + currentHeight/2, paint)
 
                 // 線
                 paint.strokeWidth = 10f
                 paint.color = Color.argb(255, 0, 255, 120)
-                // (x1,y1,x2,y2,paint) 始点の座標(x1,y1), 終点の座標(x2,y2)
-                canvas.drawLine(350f, 850f, 750f, 630f, paint)
-
                 var count: Int = 0
-                do {
-                    count++
-                    canvas.drawLine(350f, 850f * count / partCount, 750f, 850f * count / partCount, paint)
-                } while (count + 1 <= partCount)
+                while (++count < partCount) {
+                    var drawY : Float = cY -currentHeight/2 + currentHeight*count/partCount
+                    canvas.drawLine(cX - currentWidth/2, drawY, cX + currentWidth/2, drawY, paint)
+                }
             }
         }
     }
@@ -123,7 +119,7 @@ class MyView(context: Context, attrs: AttributeSet) : View(context, attrs), View
     }
 
     fun changeMode() {
-        //cutMode = (++cutMode%2)
+        cutMode = (++cutMode%2)
         showCanvas(true)
     }
 }
